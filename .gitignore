@@ -1,0 +1,15 @@
+/build/
+/helper/assets/runtime/
+*.pk8
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.key
+*.pem
+.env
+.env.*
+local.properties
+*.log
+.DS_Store
+Thumbs.db
