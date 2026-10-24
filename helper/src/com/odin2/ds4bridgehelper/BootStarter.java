@@ -28,6 +28,7 @@ final class BootStarter {
 
     static void launch() {
         try {
+            MappingIntegration.requireSupported(BridgeApplication.context());
             String exists = RootHooks.execute("[ -x " + AppRuntime.STATE + "/start.sh ] && echo YES");
             String command = "YES".equals(exists) ? "/system/bin/sh " + AppRuntime.STATE + "/start.sh"
                     : "/system/bin/sh /data/local/odin2-ds4-bridge/boot-start.sh";

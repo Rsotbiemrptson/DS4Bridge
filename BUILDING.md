@@ -33,6 +33,12 @@ No files are installed on a device and nothing is uploaded automatically.
 
 ## Source layout
 
+Run the 20 host-only adapter checks (no device or root needed):
+
+```powershell
+./tests/run-integration-host-tests.ps1 -JavaDir 'D:/Java/jdk-17'
+```
+
 - `helper/src/`: Android UI, mappings, diagnostics, settings provider and boot.
 - `helper/res/`, `helper/AndroidManifest.xml`: icon and app declarations.
 - `odin_ds4_bridge.c`: physical-input reader and virtual controller.

@@ -5,7 +5,7 @@ import android.os.Parcel;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
-/** Known AYN command interface only. Unknown Binder services are listed, never invoked. */
+/** Known OEM PServer command interface. Unknown Binder services are never invoked. */
 final class RootHooks {
     static IBinder service() throws Exception {
         Class<?> manager = Class.forName("android.os.ServiceManager");
@@ -16,7 +16,7 @@ final class RootHooks {
         if (command.getBytes(StandardCharsets.UTF_8).length > 192)
             throw new IllegalArgumentException("Privileged request exceeds the safe command length");
         IBinder service = service();
-        if (service == null) throw new IllegalStateException("AYN root service unavailable");
+        if (service == null) throw new IllegalStateException("OEM privileged service (PServerBinder) unavailable");
         Parcel input = Parcel.obtain(), output = Parcel.obtain();
         try {
             input.writeStringArray(new String[]{command, "1"});

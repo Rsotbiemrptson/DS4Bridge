@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.15.0 — 2026-10-24
+
+- Detect known Odin 2 legacy/modern and inspected Odin 3 Touch Mapping services
+  automatically; verify package/component, interface and applicable version.
+- Remember the exclusion owner, verify removal explicitly and reject unknown
+  protocols rather than guessing transaction codes.
+- Diagnostics displays integration/version/action and can check the real
+  read-only connection from the installed app UID.
+- Add read-only diagnostics for the inspected RP6 June 2026 mapping version.
+  **Odin 3 and Retroid still need hardware testing. Retroid setup/start/exclusion
+  writes remain disabled; this is not a universal-device support announcement.**
+- Odin 2 test1 passed detection, Remote Play gameplay and automatic startup plus
+  gameplay after reboot/first unlock. Final version changes release metadata
+  only relative to that tested APK. Existing readiness-15 runtime is unchanged.
+
 ## 0.14.5 — 2026-10-15
 
 - Rename component actions to Install/Update Components and Uninstall Bridge

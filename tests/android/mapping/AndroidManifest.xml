@@ -12,4 +12,6 @@
         android:targetPackage="com.odin2.ds4bridgehelper" />
     <instrumentation android:name="com.odin2.ds4bridgehelper.BridgeLayoutSmoke"
         android:targetPackage="com.odin2.ds4bridgehelper" />
+    <instrumentation android:name="com.odin2.ds4bridgehelper.IntegrationSmoke"
+        android:targetPackage="com.odin2.ds4bridgehelper" />
 </manifest>

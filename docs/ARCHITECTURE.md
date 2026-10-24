@@ -11,6 +11,17 @@ control its runtime. Commands have a 192-byte safety limit because the OEM
 service's command handling is constrained. Unknown Binder services are listed
 by diagnostics, not invoked in an automatic search for root access.
 
+MappingProfiles keeps component-specific command layouts: Odin 2 legacy uses
+33/34, modern Odin 2 and the pinned Odin 3 mapping version use 34/35. Retroid's
+inspected RP6 version has the same modern descriptor but uses 37/38 for its
+blacklist API. Only its read-only 37 query is enabled in explicit diagnostics;
+Retroid mutations/setup/start are disabled. Candidates must be enabled/exported
+system apps and known components. Unknown versions/interfaces are not invoked.
+The exclusion adapter ID is persisted before writes so removal can use the
+same integration even if a reply is lost. Failed cleanup does not fall back to
+another service. A failed/timeout Binder operation may have uncertain outcome;
+the diagnostic result must be checked, not treated as confirmed cleanup.
+
 Runtime files are staged, hash-checked, promoted to the root-owned
 `/data/local/ds4-bridge-app` directory and executed there. The boot receiver
 starts the same runtime only when the user enables automatic startup. No

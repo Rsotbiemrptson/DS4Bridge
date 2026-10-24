@@ -12,6 +12,7 @@ final class AppRuntime {
     static final String[] FILES = {"odin_ds4_bridge", "start.sh", "stop.sh", "supervisor.sh"};
     static String quote(String s) { return "'" + s.replace("'", "'\\''") + "'"; }
     static synchronized String setup(Context context) throws Exception {
+        MappingIntegration.requireSupported(context);
         RootHooks.requireRoot();
         Context storage = context.createDeviceProtectedStorageContext();
         File payload = new File(storage.getFilesDir(), "payload-v15");
@@ -48,6 +49,7 @@ final class AppRuntime {
         return "App components installed. Start the bridge when ready.";
     }
     static String start() throws Exception {
+        MappingIntegration.requireSupported(BridgeApplication.context());
         RootHooks.requireRoot();
         if ("YES".equals(RootHooks.execute("[ -x /system_ext/bin/odin_ds4_bridge ] && echo YES")))
             return "The firmware bridge is already installed. App mappings apply only to the standalone app runtime.";
@@ -101,6 +103,8 @@ final class AppRuntime {
     static String restartAndWait()throws Exception{stopAndWait();return startAndWait();}
     static String remove() throws Exception {
         stop(); Thread.sleep(2500);
+        // Explicitly clean up even when the supervisor was already stopped/crashed.
+        MappingIntegration.remove(BridgeApplication.context());
         checked("[ ! -L " + STATE + " ] && [ ! -L " + STATE + "/incoming ]");
         for (String name : FILES) { checked("rm -f " + STATE + "/" + name); checked("rm -f " + STATE + "/incoming/" + name); }
         for (String name : new String[]{"start.log","runtime.log","profile.conf","supervisor.pid","bridge.pid","ready"}) checked("rm -f " + STATE + "/" + name);

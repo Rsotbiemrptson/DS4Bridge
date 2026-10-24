@@ -216,15 +216,22 @@ public final class DiagnosticsActivity extends BridgeScreen implements InputMana
         new Thread(()->{
             String detail="",summary;
             try{
-                RootHooks.requireRoot();detail="Privileged access: OK\n";detail+=AppRuntime.status();
+                String mappingCheck=MappingIntegration.probe(this);
+                RootHooks.requireRoot();detail="Privileged access: OK\n";detail+=mappingCheck+"\n"+AppRuntime.status();
+                if(!MappingIntegration.supported(this)){
+                    summary="Diagnostics completed: privileged access works. Bridging is disabled for this unverified mapping integration; see technical details.";
+                    detail+="\nDiagnostic-only/unsupported integration: no component setup, startup or exclusion writes enabled.\n";
+                }else{
                 String inspection=AppRuntime.inspect();detail+="\n"+inspection;
                 boolean available=inspection.contains("HOOK /dev/uinput open succeeded");
                 boolean running=!RootHooks.execute("pidof odin_ds4_bridge").isEmpty();
-                summary=available?"Checks passed: privileged access and gamepad interface available. "+(running?"Bridge is running.":"Bridge is stopped.")
+                summary=available&&mappingCheck.contains("read-only connection/list check passed")?"Checks passed: mapping integration, privileged access and gamepad interface available. "+(running?"Bridge is running.":"Bridge is stopped.")
+                    :available?"Check completed with a warning: Touch Mapping integration did not verify. See technical details."
                     :"Check completed with a warning: the bridge cannot open the virtual-gamepad interface. See technical details.";
+                }
             }catch(Exception error){
                 detail+="\n"+error;
-                summary=detail.startsWith("Privileged access: OK")?"Privileged access works, but component inspection failed. Try Bridge controls > Set up / update components. See technical details."
+                summary=detail.startsWith("Privileged access: OK")?"Privileged access works, but component inspection failed. Try Bridge controls > Install/Update Components. See technical details."
                     :"Check failed: privileged access is unavailable. See technical details for the error.";
             }
             final String result=detail,message=summary;
@@ -237,7 +244,7 @@ public final class DiagnosticsActivity extends BridgeScreen implements InputMana
         return "Bridge checks: see results";
     }
     private void revealCheckStatus(){checkStatus.post(()->checkStatus.requestRectangleOnScreen(new android.graphics.Rect(0,0,checkStatus.getWidth(),checkStatus.getHeight()),false));}
-    private String report(){return inventory+"\nSelected physical controller: "+(selected==null?"none":selected.getName())+"\nCheck summary: "+checkStatus.getText()+"\nRoot and raw input:\n"+root+"\nLive input:\n"+events;}
+    private String report(){return inventory+"\n"+MappingIntegration.summary(this)+"\nSelected physical controller: "+(selected==null?"none":selected.getName())+"\nCheck summary: "+checkStatus.getText()+"\nRoot and raw input:\n"+root+"\nLive input:\n"+events;}
     private void updateReport(){if(detailsVisible)output.setText(report());if(!reportQueued){reportQueued=true;handler.postDelayed(saveReport,500);}}
     private void persistReport(){try(FileOutputStream stream=new FileOutputStream(new File(createDeviceProtectedStorageContext().getFilesDir(),"diagnostics.txt"))){stream.write(report().getBytes(StandardCharsets.UTF_8));}catch(IOException ignored){}}
     private void record(String event){if(events.length()>16000)events.delete(0,8000);events.append(event).append('\n');updateReport();}
