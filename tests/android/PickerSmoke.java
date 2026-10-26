@@ -35,7 +35,7 @@ public final class PickerSmoke extends Instrumentation {
         EditText search=(EditText)field(activity,"search");
         java.lang.reflect.Method show=PickerActivity.class.getDeclaredMethod("showOptions",View.class);show.setAccessible(true);show.invoke(activity,search);
         PopupMenu popup=(PopupMenu)field(activity,"optionsPopup");Menu menu=popup.getMenu();
-        check(menu.size()==3&&menu.getItem(0).getTitle().equals("Show system apps")&&menu.getItem(1).getTitle().equals("Start bridge after reboot")&&menu.getItem(2).getTitle().equals("Settings"),"Main menu options/order incorrect");
+        check(menu.size()==3&&menu.getItem(0).getTitle().equals("Show system apps")&&menu.getItem(1).getTitle().equals("Settings")&&menu.getItem(2).getTitle().equals("About"),"Main menu options/order incorrect");
         boolean systemBefore=preferences.getBoolean("show_system",false);
         menu.performIdentifierAction(1,0);check(preferences.getBoolean("show_system",false)!=systemBefore&&menu.findItem(1).isChecked()!=systemBefore,"System-app menu toggle did not persist/update");
         menu.performIdentifierAction(1,0);check(preferences.getBoolean("show_system",false)==systemBefore,"System-app menu toggle did not restore");popup.dismiss();

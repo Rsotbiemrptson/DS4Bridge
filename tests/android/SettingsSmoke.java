@@ -52,12 +52,13 @@ public final class SettingsSmoke extends Instrumentation {
     private void exercise()throws Exception{
         open(PickerActivity.class);main(()->{View more=find(screen.getWindow().getDecorView(),"More options");check(more!=null,"Menu anchor missing");more.performClick();});waitForIdleSync();
         AccessibilityNodeInfo menu=null;for(int attempt=0;attempt<20&&menu==null;attempt++){menu=getUiAutomation().getRootInActiveWindow();if(menu==null)SystemClock.sleep(100);}check(menu!=null,"Menu not accessible");
-        check(!menu.findAccessibilityNodeInfosByText("Start bridge after reboot").isEmpty(),"Startup menu option missing");
+        check(menu.findAccessibilityNodeInfosByText("Start bridge after reboot").isEmpty(),"Startup remains in main menu");
+        check(!menu.findAccessibilityNodeInfosByText("About").isEmpty(),"About menu option missing");
         check(!menu.findAccessibilityNodeInfosByText("Settings").isEmpty(),"Settings menu option missing");
         check(!menu.findAccessibilityNodeInfosByText("Show system apps").isEmpty(),"System apps menu option missing");
         for(String removed:new String[]{"Controller mapping","Diagnostics","Theme","Bridge controls"})check(menu.findAccessibilityNodeInfosByText(removed).isEmpty(),"Extra overflow option: "+removed);
         open(BridgeActivity.class);BridgeActivity bridge=(BridgeActivity)screen;waitIdle(bridge);
-        main(()->{for(String label:new String[]{"Bridge controls","Controller mapping","Diagnostics","Appearance"})check(find(screen.getWindow().getDecorView(),"Settings: "+label)!=null,"Sidebar item missing: "+label);});
+        main(()->check(find(screen.getWindow().getDecorView(),"Start bridge after reboot")!=null,"Startup setting missing"));
         if(AppRuntime.controlState().equals("RUNNING"))clickField(bridge,"stopButton");
         check(AppRuntime.controlState().equals("STOPPED"),"Stop did not stop app runtime");
         main(()->{try{check(((Button)field(bridge,"startButton")).isEnabled()&&!((Button)field(bridge,"stopButton")).isEnabled(),"Stopped-state buttons incorrect");}catch(Exception error){throw new RuntimeException(error);}});

@@ -1,5 +1,10 @@
-/build/
-/helper/assets/runtime/
+# Local builds, signing and private data
+.build/
+build/
+dist/
+.local/
+helper/assets/runtime/
+src/**/BuildInfo.java
 *.pk8
 *.jks
 *.keystore
@@ -7,9 +12,15 @@
 *.pfx
 *.key
 *.pem
+*.idsig
 .env
 .env.*
 local.properties
 *.log
+*.zip
+*.tar
+*.pending
+*.apk
+!releases/**/*.apk
 .DS_Store
 Thumbs.db

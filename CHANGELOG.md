@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.16.0 — 2026-10-25
+
+- Rename the app Raven Gamepad, with the blue Raven icon and solid background. Keep the package/signing identity and working bridge runtime unchanged.
+- Add the Raven-family appearance card, light/dark/system theme, wheel/RGB/hex accent picker and six circular presets.
+- Keep a persistent sidebar/header while switching the right pane. Apps is the only main tab; menu Settings reveals Appearance, Bridge controls, Controller mapping and Diagnostics.
+- Move automatic startup into Bridge controls; make Advanced collapsible with themed buttons and individual explanations. Show actual Status: ... without routine status-check chatter.
+- Accent mapping Cancel buttons and retain draft edits across screen rebuilds, including the embedded-pane restoration fix.
+- Match the Raven About layout and provide the full GPL text offline.
+- Verified Odin 2 UI, controller events, app selection and mapping draft handling. Remote Play controls worked before and after reboot; automatic startup after first unlock was observed without opening the app.
+- Adopt Raven Backup's repository structure and separate installation, removal, usage, build and test guides. Odin 3/Retroid still need hardware tests; Retroid bridging remains disabled.
+
 ## 0.15.0 — 2026-10-24
 
 - Detect known Odin 2 legacy/modern and inspected Odin 3 Touch Mapping services

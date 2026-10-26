@@ -53,7 +53,7 @@ public final class DiagnosticsSmoke extends Instrumentation {
         check(buttons.get("D-pad left").isActivated()&&((TextView)field("dpadLabel")).getText().toString().equals("D-pad: left"),"D-pad indicator incorrect");
         ((Button)field("detailsButton")).performClick();
         check(((View)field("technical")).getVisibility()==View.VISIBLE,"Technical section did not expand");
-        check(((TextView)field("output")).getText().toString().contains("DS4 Bridge 0.15.0"),"Version missing from report");
+        check(((TextView)field("output")).getText().toString().contains("Raven Gamepad 0.16.0"),"Version missing from report");
         Button checkButton=(Button)field("checkButton");
         if((Boolean)field("landscape")){
             android.view.ViewGroup actions=(android.view.ViewGroup)checkButton.getParent();

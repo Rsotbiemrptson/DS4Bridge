@@ -1,5 +1,5 @@
 #define main bridge_program_main
-#include "../odin_ds4_bridge.c"
+#include "../native/odin_ds4_bridge.c"
 #undef main
 #include <assert.h>
 

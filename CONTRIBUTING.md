@@ -2,10 +2,10 @@
 
 The project uses GPL-3.0-only. Submit contributions under that license and
 preserve third-party notices. Do not contribute code you do not have permission
-to share under these terms. See LICENSE and LICENSE-NOTICE.md.
+to share under these terms. See LICENSE and THIRD_PARTY_NOTICES.md.
 
 For a bug report, include device model, actual Android/OEM firmware version,
-DS4 Bridge version, controller mode, installation type (standalone or older
+Raven Gamepad version, controller mode, installation type (standalone or older
 firmware/script integration), exact error, steps and whether reboot startup
 works. Explain what responds in Diagnostics and in the target app. Review any
 diagnostic report for personal identifiers/package lists before attaching it.

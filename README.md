@@ -1,148 +1,60 @@
-# DS4 Bridge
+# Raven Gamepad
 
-Use the AYN Odin 2's built-in controls as a virtual DualShock 4 controller in
-selected apps. One APK includes the settings interface and bridge components;
-no separate script kit or firmware flash is needed for the tested setup.
+<img src="docs/images/icon.png" alt="Raven Gamepad icon" width="96" />
 
-**Current release: 0.15.0 (version code 29).**
-[Download the APK](https://github.com/Rsotbiemrptson/DS4Bridge/releases/download/v0.15.0/DS4-Bridge-0.15.0.apk).
+Use your handheld's built-in controls as a virtual DualShock 4 in selected Android apps. One APK includes app selection, controller mapping, diagnostics and the bridge components.
 
-Automatic Odin 2/Odin 3 Touch Mapping detection is now included. **Odin 3 and
-Retroid support still need hardware testing. Retroid bridging is not enabled;
-the inspected RP6 mapping version has read-only diagnostics only.**
+**Current final release: 0.16.0 (version code 31).** Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
 
-## Compatibility and important limits
+[Download Raven Gamepad](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/download/v0.16.0/Raven-Gamepad-0.16.0.apk) · [Release notes](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/tag/v0.16.0)
 
-- Validated on Odin 2 stock firmware 1.0.0.318 / Android 13: installation,
-  Remote Play gameplay, controller mapping and startup after reboot.
-- Also tested on a second Odin 2 after its previous firmware-baked bridge was
-  removed: Remote Play and automatic startup after reboot worked.
-- This release's detection changes were tested as 0.15.0-test1 on Odin 2:
-  verified legacy service connection, Remote Play controls, automatic startup
-  after first unlock and working controls after reboot. 0.15.0 changes the
-  release version metadata only, not the tested app functionality.
-- Odin and Xbox controller modes are supported, with face-button positions
-  handled for each mode. App selection controls forwarding.
-- Odin 3 adapter: inspected mapping APK `com.odin.mapping`, version
-  `3.0(20251128_112846)`. It is **not hardware-validated**; unknown mapping
-  versions are reported rather than sent guessed commands.
-- Retroid RP6 mapping APK `com.rp.mapping` version `3.0(20260615_164638)` has a
-  verified offline read-only diagnostic path. Setup, bridge startup and exclusion
-  writes are disabled on Retroid pending hardware testing. RP5, other versions
-  and manufacturers are not claimed supported. Sharing a processor or interface
-  name does not establish compatibility.
-- No Magisk installation was required on the tested stock Odin 2. However,
-  this is **not an unprivileged app**: it relies on AYN's `PServerBinder`
-  service providing root execution, Linux input access and `/dev/uinput`.
-  Devices without that permitted interface are unsupported by this release.
-- This does not certify the device, change its fingerprint, fix Play Integrity,
-  or guarantee that any particular app accepts the virtual controller.
-- Not affiliated with AYN, Sony or PlayStation. Use at your own risk.
+## What it does
 
-## Install and start
+- Forward the built-in controller to selected installed apps; search by app name or package ID and optionally show system apps.
+- Handle Odin and Xbox controller modes with the correct physical face-button positions.
+- Learn button mappings, record/invert axes, and apply saved mappings with a bridge restart.
+- Show live physical-controller buttons, sticks and triggers, with technical checks kept separate.
+- Start the bridge after reboot and the first unlock when enabled.
+- Use a persistent Raven sidebar, light/dark/system themes, a color wheel, RGB sliders, hex input and Raven-family color presets.
+- Open Settings and About from the three-dot menu. Settings reveals Appearance, Bridge controls, Controller mapping and Diagnostics beneath Apps; selecting Apps hides those extra tabs. Advanced component actions are collapsed by default.
 
-1. Download `DS4-Bridge-0.15.0.apk` to the Odin.
-2. Open it and allow installation from that source when Android asks.
-3. Open **DS4 Bridge**. In the top-right menu, open **Settings**.
-4. Open **Bridge controls** and tap **Install/Update Components**. Wait for
-   "App components installed. Start the bridge when ready."
-5. Tap **Start** and wait for **Bridge running**.
-6. Return to the app list, select PS Remote Play or your other installed target
-   apps, and tap **Save selected apps**. Search and **Show system apps** help
-   find installed apps; Remote Play is not preselected.
-7. Fully close and reopen the target app, connect to your console if needed,
-   and test buttons and both sticks in a game.
-8. Optional: enable **Start bridge after reboot** in the app-list menu. Restart
-   the Odin once and confirm the target app works without opening DS4 Bridge.
-   Automatic startup waits for the first unlock after reboot.
+## Supported scope
 
-No USB debugging or computer connection is needed for normal setup. Granting
-permission to install an APK does not itself grant root; privileged access
-depends on the OEM service described above.
+**Odin 2 is hardware-tested. Odin 3 and Retroid still require hardware testing.**
 
-### Mapping and settings
+The standalone bridge was tested on Odin 2 stock 1.0.0.318 / Android 13 and a stock-318-based custom build. For this milestone, Remote Play buttons, D-pad, both sticks and triggers worked in-game before and after reboot; automatic bridge startup after first unlock was observed without opening Raven Gamepad.
 
-Under **Settings > Controller mapping**, hold a button row and follow the
-learning prompt to press the desired physical input. Tap an axis to record it;
-hold an axis to invert it. Cancel exits
-learning. Assigning an input already used elsewhere clears its old assignment.
-Use **Save and restart bridge** to apply the mapping. Labels adapt to Odin or
-Xbox mode. Diagnostics shows the selected physical controller and live inputs;
-technical details and bridge checks are available separately.
-Technical details now includes the detected mapping service/version, exclusion
-owner and last verification/action. Run bridge checks performs a verified
-read-only list query, not an exclusion change.
+Known Odin 2 and inspected Odin 3 Touch Mapping interfaces are detected automatically. The Odin 3 adapter is not hardware-validated. The inspected Retroid Pocket 6 integration has read-only diagnostics only: component setup, bridge startup and exclusion changes remain disabled. Unknown mapping versions are reported rather than sent guessed commands. See [Compatibility](docs/USAGE.md#compatibility).
 
-## Remove completely — do this before uninstalling the APK
+This is **not an ordinary unprivileged APK**. On the tested Odin 2, AYN's `PServerBinder` service provides permitted root execution, Linux input access and `/dev/uinput`; no Magisk installation or firmware flash was required. A similarly named Run as root option or the same processor on another device does not establish compatibility. Android API 26 is the declared minimum, not a claim that every Android 8+ device works.
 
-1. Keep DS4 Bridge installed while completing these steps.
-2. Open **Settings > Bridge controls > Advanced**.
-3. Tap **Uninstall Bridge Components**, then confirm **Uninstall**.
-4. Wait for successful removal; **Components not installed** is the expected
-   final status. Saved app selections and mappings remain until APK uninstall.
-5. Uninstall **DS4 Bridge** using Android's normal app settings or launcher.
+The bridge does not change firmware, device fingerprints or Play Integrity, and it cannot guarantee that another app accepts a virtual controller. It is not affiliated with AYN, Sony or PlayStation.
 
-The component action stops the standalone runtime, removes its root-owned
-files from `/data/local/ds4-bridge-app` and disables its automatic startup.
-Normal supervisor shutdown requests removal of the virtual pad's AYN
-touch-mapping exclusion. The removal action also explicitly verifies exclusion
-cleanup using the saved integration, even if the supervisor was already stopped.
-If removal fails, keep the APK installed and collect
-the error/Diagnostics report rather than assuming cleanup succeeded.
+## Install, use and remove
 
-**Uninstalling the APK first is not complete removal:** Android does not delete
-that external runtime directory. Reinstall the same-signed APK and perform the
-component-removal steps if you skipped them. Manually downloaded APKs, ZIPs or
-old extracted script kits in shared storage are not removed automatically.
+- [Install and update](docs/INSTALL.md)
+- [Usage, mapping, appearance and troubleshooting](docs/USAGE.md)
+- [Complete removal](docs/UNINSTALL.md) — remove bridge components **before** uninstalling the APK.
+- [Testing and hardware limits](docs/TESTING.md)
 
-This action does **not** remove a firmware-baked bridge or legacy script-kit
-installation. Firmware bridge detection deliberately disables standalone
-controls. Do not install a second running bridge alongside an existing one.
+Automatic startup waits for the first unlock after reboot. App selection gates input forwarding; the virtual controller stays registered while the bridge is running. Battery impact has not been quantified.
 
-## Updating
+## Source and building
 
-Install a newer APK signed by the same publisher over the existing app; saved
-settings should remain. Follow release-specific component-update instructions
-when runtime assets change. Updating from 0.14.5 or 0.15.0-test1 to 0.15.0 does
-not require a firmware flash or replacement of the unchanged readiness-15 runtime.
-Restart the bridge to use the updated integration. A differently signed community build cannot replace
-the existing APK in place. Remove components and uninstall the old app first
-before switching signing identities; that loses app-private settings.
+The app uses Java and Android framework APIs plus a small native C bridge, without Gradle dependencies. [Build instructions](docs/BUILD.md) cover Windows PowerShell, JDK, Android SDK/NDK and signing. SDK tools and private signing keys are not included.
 
-## Troubleshooting
+- `src/`, `res/`, `AndroidManifest.xml`: app source, resources and declarations.
+- `native/`: native controller reader and virtual gamepad.
+- `runtime/`: privileged launcher, supervisor and stop scripts.
+- `build.ps1`: portable signed-APK build; `scripts/`: final-APK publishing helper.
+- `tests/`: host checks, native tests and Android instrumentation source.
+- `releases/v0.16.0/`: current signed APK and SHA-256 checksum.
+- `docs/`: install, removal, usage, build, architecture and validation notes.
 
-- **OEM privileged service unavailable:** the necessary OEM interface is missing or
-  inaccessible. Installing Magisk is not a documented fix for this release.
-- **Components not installed:** run Install/Update Components, then Start.
-- **Firmware bridge detected:** migrate away from that older integration first;
-  this app cannot remove system-partition files for you.
-- **No input in the target app:** check Bridge running, select and save the
-  app, fully reopen it and verify physical input in Diagnostics.
-- **Sticks do not register:** check the Odin's own joystick calibration and
-  Diagnostics before changing mappings. Test sticks in a game rather than
-  relying on console home-screen behavior.
-- **Reboot startup fails:** check the menu switch, do not force-stop the app,
-  unlock once after reboot, open it once and try again. OEM/background restrictions can affect startup.
-- **No supported mapping integration / unverified version:** share the device
-  model, firmware and mapping-version details from Diagnostics after reviewing
-  personal information. Do not bypass the checks or force an Odin command layout
-  onto a Retroid service.
+See [Architecture](docs/ARCHITECTURE.md) and [Release status](RELEASE-STATUS.md). Source corresponding to the official APK is available at the `v0.16.0` tag.
 
-See [BUILDING.md](BUILDING.md) for source builds,
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for implementation limits, and
-[CHANGELOG.md](CHANGELOG.md) for this release's history.
+## License and contributions
 
-## APK verification
+Copyright (C) 2026 Raven Gamepad contributors. Original app source, scripts and project artwork are licensed under **GNU GPL version 3 only**; see [LICENSE](LICENSE). Distributed modified builds must comply with the GPL and provide corresponding source; private modifications do not have to be published.
 
-SHA-256:
-`657F6201CE4E6239BCF256C7FA16D26F1D0743FAA5271D12B71492FDF20830CA`
-
-Signing certificate SHA-256:
-`e0ffee3b7f74a94a560c13284124e251d54470a173bb23de34e5b7c36256ed59`
-
-## License
-
-GPL-3.0-only. You can use and modify DS4 Bridge; distributed derivatives must
-remain under the GPL and include corresponding source as required by the
-license. Private modifications do not have to be published. See [LICENSE](LICENSE)
-and [LICENSE-NOTICE.md](LICENSE-NOTICE.md). Private signing keys are never included.
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

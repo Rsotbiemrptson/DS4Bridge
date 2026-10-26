@@ -1,0 +1,41 @@
+<resources>
+    <style name="RavenAboutDark" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">#0070CC</item>
+        <item name="android:colorBackground">#272B32</item>
+        <item name="android:windowBackground">@drawable/about_surface_dark</item>
+        <item name="android:textColorPrimary">#F1F2F6</item>
+        <item name="android:textColorSecondary">#A9B0BC</item>
+        <item name="android:windowMinWidthMajor">55%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+    <style name="RavenAboutLight" parent="@android:style/Theme.Material.Light.Dialog.Alert">
+        <item name="android:colorAccent">#0070CC</item>
+        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:windowBackground">@drawable/about_surface_light</item>
+        <item name="android:textColorPrimary">#20232B</item>
+        <item name="android:textColorSecondary">#586171</item>
+        <item name="android:windowMinWidthMajor">55%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+    <color name="icon_background">#1F2228</color>
+    <style name="RavenDark" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:popupMenuStyle">@style/RavenPopupDark</item>
+        <item name="android:colorAccent">#0070CC</item>
+        <item name="android:colorControlActivated">#0070CC</item>
+        <item name="android:colorBackground">#131519</item>
+        <item name="android:windowBackground">#131519</item>
+        <item name="android:textColorPrimary">#F1F2F6</item>
+        <item name="android:textColorSecondary">#A9B0BC</item>
+    </style>
+    <style name="RavenLight" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:popupMenuStyle">@style/RavenPopupLight</item>
+        <item name="android:colorAccent">#0070CC</item>
+        <item name="android:colorControlActivated">#0070CC</item>
+        <item name="android:colorBackground">#F5F5F8</item>
+        <item name="android:windowBackground">#F5F5F8</item>
+        <item name="android:textColorPrimary">#20232B</item>
+        <item name="android:textColorSecondary">#586171</item>
+    </style>
+    <style name="RavenPopupDark" parent="@android:style/Widget.Material.PopupMenu"><item name="android:popupBackground">@drawable/about_surface_dark</item></style>
+    <style name="RavenPopupLight" parent="@android:style/Widget.Material.Light.PopupMenu"><item name="android:popupBackground">@drawable/about_surface_light</item></style>
+</resources>

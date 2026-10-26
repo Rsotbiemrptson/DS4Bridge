@@ -24,7 +24,7 @@ public final class IntegrationSmoke extends Instrumentation {
         try{
             Context c=getTargetContext(),de=c.createDeviceProtectedStorageContext();
             check(android.os.Process.myUid()==c.getApplicationInfo().uid,"Probe is not using installed app UID");
-            check("0.15.0".equals(c.getPackageManager().getPackageInfo(c.getPackageName(),0).versionName),"Wrong app version");
+            check("0.16.0".equals(c.getPackageManager().getPackageInfo(c.getPackageName(),0).versionName),"Wrong app version");
             if("start".equals(action)){
                 Map<String,byte[]> before=profiles(c);
                 byte[] targets=before.get("targets.conf");

@@ -1,6 +1,6 @@
 # Architecture and safety notes
 
-DS4 Bridge is not a Bluetooth pairing utility. A native process reads physical
+Raven Gamepad (formerly DS4 Bridge) is not a Bluetooth pairing utility. A native process reads physical
 Linux input events and creates an Android-visible virtual Sony pad through
 uinput (VID 054c, PID 09cc). Current known physical modes are vendor 2020,
 product 0111 (Odin) and 0112 (Xbox). Face buttons use physical positions, not
@@ -48,3 +48,7 @@ them publicly. This distribution excludes development device logs and extracted
 OEM APKs. No PlayStation/Netflix firmware, ROM images or third-party applications
 are bundled. Access to the OEM privileged interface is security-sensitive; do
 not treat this design as a general-purpose safe command-execution API.
+
+## UI shell
+
+A single top-level activity retains the app list, header and sidebar. Settings tool activities are embedded in the right pane with lifecycle and controller event forwarding. The host asks the mapping pane about unsaved edits before navigation and explicitly stores/restores pane draft state on recreation. This UI redesign does not change the native controller identity, package/provider IDs or runtime protocol.
