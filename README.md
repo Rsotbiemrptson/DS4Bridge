@@ -6,8 +6,6 @@ Use your handheld's built-in controls as a virtual DualShock 4 in selected Andro
 
 **Current final release: 0.16.1 (version code 33).** Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
 
-[Download Raven Gamepad](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/download/v0.16.1/Raven-Gamepad-0.16.1.apk) · [Release notes](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/tag/v0.16.1)
-
 ## What it does
 
 - Forward the built-in controller to selected installed apps; search by app name or package ID and optionally show system apps.
