@@ -1,5 +1,11 @@
 # Validation
 
+## 0.16.1 icon correction — 2026-10-26
+
+The approved flattened PNG replaces the original shaded backdrop and black corners with Backup's exact solid #1F2228 background and rounded-corner alpha. Pixel checks preserved the original raven/controller/arrow artwork and verified the APK-packed visible pixels and alpha. The icon-only preview installed over the official 0.16.0 APK, preserving the running bridge process.
+
+This patch changes the icon and build/version metadata only. Final-to-preview payload and public-layout rebuild comparisons are required for publication. No additional gameplay, reboot or new-model acceptance is claimed beyond the working 0.16.0 milestone below.
+
 ## 0.16.0 milestone — 2026-10-25
 
 The tested 0.16.0-test1 preview ran on the owner's Odin 2. The final 0.16.0 APK changes version metadata only; every payload entry outside the manifest/signature matched the accepted preview. The source was then organized into the public flat layout and rebuilt separately.

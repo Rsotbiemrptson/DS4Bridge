@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.16.1 — 2026-10-26
+
+- Replace the icon's shaded background and baked-in black corners with Raven Backup's exact solid #1F2228 background and rounded-corner transparency.
+- Preserve the original raven, game controller and blue arrow artwork. The app uses a single flattened PNG, not separate artwork layers or regenerated artwork.
+- Keep the package, signing identity, controller/runtime payloads, settings and UI behavior unchanged.
+- Verify the packaged icon's visible pixels/alpha, matching public-source rebuild and icon-only preview installation. Existing Odin 2 gameplay/reboot acceptance remains applicable; no new Odin 3 or Retroid hardware claim is made.
+
 ## 0.16.0 — 2026-10-25
 
 - Rename the app Raven Gamepad, with the blue Raven icon and solid background. Keep the package/signing identity and working bridge runtime unchanged.

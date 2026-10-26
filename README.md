@@ -4,9 +4,9 @@
 
 Use your handheld's built-in controls as a virtual DualShock 4 in selected Android apps. One APK includes app selection, controller mapping, diagnostics and the bridge components.
 
-**Current final release: 0.16.0 (version code 31).** Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
+**Current final release: 0.16.1 (version code 33).** Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
 
-[Download Raven Gamepad](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/download/v0.16.0/Raven-Gamepad-0.16.0.apk) · [Release notes](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/tag/v0.16.0)
+[Download Raven Gamepad](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/download/v0.16.1/Raven-Gamepad-0.16.1.apk) · [Release notes](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/tag/v0.16.1)
 
 ## What it does
 
@@ -48,10 +48,10 @@ The app uses Java and Android framework APIs plus a small native C bridge, witho
 - `runtime/`: privileged launcher, supervisor and stop scripts.
 - `build.ps1`: portable signed-APK build; `scripts/`: final-APK publishing helper.
 - `tests/`: host checks, native tests and Android instrumentation source.
-- `releases/v0.16.0/`: current signed APK and SHA-256 checksum.
+- `releases/v0.16.1/`: current signed APK and SHA-256 checksum.
 - `docs/`: install, removal, usage, build, architecture and validation notes.
 
-See [Architecture](docs/ARCHITECTURE.md) and [Release status](RELEASE-STATUS.md). Source corresponding to the official APK is available at the `v0.16.0` tag.
+See [Architecture](docs/ARCHITECTURE.md) and [Release status](RELEASE-STATUS.md). Source corresponding to the official APK is available at the `v0.16.1` tag.
 
 ## License and contributions
 
