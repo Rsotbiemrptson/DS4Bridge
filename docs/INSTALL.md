@@ -2,7 +2,7 @@
 
 ## Fresh installation on a supported Odin 2
 
-1. Download the official `Raven-Gamepad-0.16.1.apk` from [Releases](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/tag/v0.16.1).
+1. Download the official `Raven-Gamepad-0.16.2.apk` from [Releases](https://github.com/Rsotbiemrptson/Raven-Gamepad/releases/tag/v0.16.2).
 2. Open the APK and allow installation from that source when Android asks.
 3. Open Raven Gamepad. Use the top-right three-dot menu to open **Settings**.
 4. Select **Bridge controls**, expand **Advanced**, then tap **Install/Update Components**. Wait for the installation to finish.
@@ -17,7 +17,7 @@ Normal setup does not need USB debugging, a computer, a separate script kit or a
 
 Install the new APK over DS4 Bridge/Raven Gamepad. The package ID remains `com.odin2.ds4bridgehelper`, and the official signing identity is unchanged. Keep the old app installed so Android retains its app choices, mappings, theme and startup option.
 
-Version 0.16.1 changes the interface and branding; native/runtime payloads remain unchanged from 0.15.0 (readiness 15). Existing working components do not need replacement just for this update. No firmware flash or factory reset is required. Updating from 0.16.0 to 0.16.1 only corrects the icon; existing runtime components do not need replacement.
+Version 0.16.2 changes the interface and branding; native/runtime payloads remain unchanged from 0.15.0 (readiness 15). Existing working components do not need replacement just for this update. No firmware flash or factory reset is required. The 0.16.2 update changes the mapping editor, app filtering and interface feedback; existing runtime components do not need replacement.
 
 Community builds signed with another key cannot update the official app in place. Complete component removal and uninstall before switching signing identities; uninstalling loses app-private settings.
 

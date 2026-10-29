@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.16.2 — 2026-10-29
+
+- Add larger, collapsible controller-mapping sections; preserve their state across recreation and pane navigation.
+- Group analog triggers under Shoulders, stick clicks under Analog Sticks, and Share/Options/PS under Face buttons. Remove the separate Other buttons section and D-pad axis editor rows while retaining working D-pad handling.
+- Label the Share input Select, matching the existing native mapping.
+- Put Advanced's chevron on the right and center the three-dot menu artwork inside its button.
+- Confirm exact Raven Backup sidebar/card colors and keep About focused on Raven Gamepad.
+- Show a controller-count popup after Refresh controllers in Diagnostics.
+- Treat Android Developer Verifier, SafetyCore and System Key Verifier as system components even when installed in the data partition.
+- Verify mapping, app filtering, diagnostics and dark/light landscape/portrait UI on Odin 2; preserve saved mappings, app targets and automatic startup. Native/runtime payloads are unchanged. Gameplay/reboot acceptance is inherited from earlier runtime testing, not a fresh 0.16.2 gameplay test.
+- Touchpad/DualSense overlay support is not included. Odin 3 and Retroid still require hardware testing; Retroid bridging remains disabled.
+
 ## 0.16.1 â€” 2026-10-26
 
 - Replace the icon's shaded background and baked-in black corners with Raven Backup's exact solid #1F2228 background and rounded-corner transparency.

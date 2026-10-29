@@ -53,7 +53,7 @@ public final class DiagnosticsSmoke extends Instrumentation {
         check(buttons.get("D-pad left").isActivated()&&((TextView)field("dpadLabel")).getText().toString().equals("D-pad: left"),"D-pad indicator incorrect");
         ((Button)field("detailsButton")).performClick();
         check(((View)field("technical")).getVisibility()==View.VISIBLE,"Technical section did not expand");
-        check(((TextView)field("output")).getText().toString().contains("Raven Gamepad 0.16.0"),"Version missing from report");
+        check(((TextView)field("output")).getText().toString().contains("Raven Gamepad "+activity.getPackageManager().getPackageInfo(activity.getPackageName(),0).versionName),"Version missing from report");
         Button checkButton=(Button)field("checkButton");
         if((Boolean)field("landscape")){
             android.view.ViewGroup actions=(android.view.ViewGroup)checkButton.getParent();
@@ -72,10 +72,13 @@ public final class DiagnosticsSmoke extends Instrumentation {
         check(((View)field("checking")).getVisibility()==View.VISIBLE,"Check progress indicator missing");
         check(((TextView)field("checkStatus")).getText().toString().startsWith("Checking"),"Immediate status message missing");
     }
+    private View refreshButton(View view){if(view instanceof Button&&((Button)view).getText().toString().equals("Refresh controllers"))return view;if(view instanceof ViewGroup){ViewGroup group=(ViewGroup)view;for(int i=0;i<group.getChildCount();i++){View found=refreshButton(group.getChildAt(i));if(found!=null)return found;}}return null;}
     @Override public void onStart(){
         Bundle result=new Bundle();
         try{
             activity=(DiagnosticsActivity)startActivitySync(new Intent(getTargetContext(),DiagnosticsActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));waitForIdleSync();
+            main(()->{View refresh=refreshButton(activity.getWindow().getDecorView());check(refresh!=null,"Refresh button missing");refresh.performClick();});SystemClock.sleep(350);
+            try(ParcelFileDescriptor fd=getUiAutomation().executeShellCommand("screencap -p /sdcard/raven-refresh-feedback.png");java.io.InputStream in=new ParcelFileDescriptor.AutoCloseInputStream(fd)){byte[] buffer=new byte[1024];while(in.read(buffer)!=-1){}}
             main(()->{try{exercise();}catch(Exception error){throw new RuntimeException(error);}});
             if(failure!=null)throw new Exception("Dashboard regression",failure);
             final boolean[] busy={true};long until=SystemClock.uptimeMillis()+20000;

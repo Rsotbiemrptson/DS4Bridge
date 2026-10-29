@@ -27,6 +27,8 @@ public final class PickerSmoke extends Instrumentation {
     private String selectedPackage;
     private boolean selectedAfterEdit;
     @SuppressWarnings("unchecked") private void exercise()throws Exception{
+        for(String pkg:new String[]{"com.google.android.verifier","com.google.android.safetycore","com.google.android.contactkeys"}){android.content.pm.ApplicationInfo app=new android.content.pm.ApplicationInfo();app.packageName=pkg;check(PickerActivity.isSystemApp(app),"Google system component not classified: "+pkg);}
+        android.content.pm.ApplicationInfo user=new android.content.pm.ApplicationInfo();user.packageName="com.example.userapp";check(!PickerActivity.isSystemApp(user),"Ordinary app misclassified");
         SettingsUi ui=(SettingsUi)field(activity,"ui");check((Integer)field(activity,"background")==ui.background&&(Integer)field(activity,"accent")==ui.accent,"Picker palette differs from Settings");
         List<?> all=(List<?>)field(activity,"choices");check(!all.isEmpty(),"Installed apps missing");Object chosen=all.get(0);
         for(Object choice:all)if(field(choice,"pkg").equals("com.playstation.remoteplay"))chosen=choice;

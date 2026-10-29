@@ -47,6 +47,14 @@ public final class MappingSmoke extends Instrumentation {
             int product=0x111+mode;int[] defaults=MappingActivity.defaultButtonCodes(product);
             for(int i=0;i<4;i++)check(MappingActivity.inputName(0x2020,product,defaults[i]).equals(expected[mode][i]),"Face labels incorrect for mode "+mode);
         }
+        check(MappingActivity.inputName(0x2020,0x111,314).equals("Select"),"Share input should say Select only");
+        check(rows.findViewWithTag("axis:16")==null&&rows.findViewWithTag("axis:17")==null,"D-pad axis rows remain");
+        View trigger=rows.findViewWithTag("axis:3");check(trigger!=null&&trigger.getParent()==row(rows,308).getParent(),"L2 trigger not grouped with Shoulders");
+        View body=(View)trigger.getParent();android.view.ViewGroup card=(android.view.ViewGroup)body.getParent();View header=card.getChildAt(0);
+        check(header.getContentDescription().equals("Collapse Shoulders"),"Shoulders header missing");header.performClick();check(body.getVisibility()==View.GONE,"Section did not collapse");
+        header.performClick();check(body.getVisibility()==View.VISIBLE,"Section did not expand");
+        check(row(rows,314).getParent()==rows.findViewWithTag("axis:0").getParent()&&row(rows,315).getParent()==rows.findViewWithTag("axis:0").getParent(),"Stick clicks not in Analog Sticks");
+        for(int target:new int[]{312,313,316})check(row(rows,target).getParent()==row(rows,305).getParent(),"Remaining utility button not in Face buttons");
         View l1=row(rows,308);check(l1!=null,"L1 row missing");
         l1.performLongClick();View pane=(View)field("capturePane");check(pane.getVisibility()==View.VISIBLE,"Hold did not show learning pane");
         check(((TextView)field("learningTitle")).getText().toString().equals("Assign L1"),"Learning target missing");

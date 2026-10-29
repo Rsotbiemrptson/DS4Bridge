@@ -1,11 +1,13 @@
 # Release status
 
-Current final milestone: **Raven Gamepad 0.16.1**, version code **33**, dated 2026-10-26.
+Current final milestone: **Raven Gamepad 0.16.2**, version code **36**, dated 2026-10-29.
 Previously DS4 Bridge; package/signing identity unchanged.
 
 The 0.16.0-test1 build passed Odin 2 UI/input checks and user-confirmed Remote Play gameplay before and after reboot. After first unlock, the boot launcher, new bridge process and virtual Sony controller were observed without opening Raven Gamepad. The user then confirmed all controls still worked in-game.
 
 For 0.16.0, the final APK matched all 14 payload entries outside the manifest/signature of the accepted gameplay preview. Version 0.16.1 changes only the icon and build/version metadata: its flattened PNG uses Backup's solid #1F2228 background and rounded transparency, with the original emblem preserved. The icon-only preview installed successfully and the bridge process stayed running. The new final payload and public-layout rebuild are verified before publication; controller/runtime behavior is unchanged.
+
+Version 0.16.2 adds the mapping groups, collapsible section headings, right-aligned Advanced chevron, centered menu dots, explicit refresh feedback and updated system-app classification. Its test builds passed Odin 2 mapping, picker, diagnostics and dark/light landscape/portrait UI checks. Mapping files, targets, boot preferences and runtime PID were preserved. The final APK is compared against the accepted UI preview and the portable public-source rebuild. Native/runtime payloads remain identical to 0.16.1. No new gameplay/reboot or hardware-support claim is made. Touchpad support is deferred and not included.
 
 | Area | Status |
 | --- | --- |

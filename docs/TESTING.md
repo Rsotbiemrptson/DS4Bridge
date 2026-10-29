@@ -1,5 +1,11 @@
 # Validation
 
+## 0.16.2 UI and mapping update — 2026-10-29
+
+The preview builds passed Odin 2 mapping learning and exclusive assignment, section grouping/collapse, D-pad key and HAT handling, draft recreation, installed-app filtering/search/selection and diagnostics/root-check feedback. The controller-refresh popup was captured and inspected. Light/dark landscape/portrait screenshots confirmed the right-aligned chevron, centered dots and exact Backup palette. Saved mappings, targets, boot preferences and runtime PID were preserved by UI acceptance checks.
+
+The final build is compared with 0.16.2-test2 outside version metadata/signature, and independently rebuilt through the portable public build. Native/runtime assets remain unchanged from 0.16.1. No fresh in-game/reboot acceptance is claimed for this UI-only update. Touchpad support is not included; Odin 3 and Retroid still require hardware testing.
+
 ## 0.16.1 icon correction â€” 2026-10-26
 
 The approved flattened PNG replaces the original shaded backdrop and black corners with Backup's exact solid #1F2228 background and rounded-corner alpha. Pixel checks preserved the original raven/controller/arrow artwork and verified the APK-packed visible pixels and alpha. The icon-only preview installed over the official 0.16.0 APK, preserving the running bridge process.

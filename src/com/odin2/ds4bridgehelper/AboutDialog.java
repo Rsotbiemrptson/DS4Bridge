@@ -26,7 +26,7 @@ final class AboutDialog {
         String version="";try{version=activity.getPackageManager().getPackageInfo(activity.getPackageName(),0).versionName;}catch(Exception ignored){}
         TextView release=text("Version "+version,13,ui.accentText);release.setGravity(Gravity.CENTER);content.addView(release,new LinearLayout.LayoutParams(-1,-2));ui.space(content,8);
         TextView slogan=text("Your controller. Your games.",16,ui.accentText);slogan.setGravity(Gravity.START);content.addView(slogan,new LinearLayout.LayoutParams(-1,-2));ui.space(content,8);
-        content.addView(text("Virtual DualShock 4 controls for your handheld, with app selection and button mapping. Part of the Raven family alongside Raven Backup, Raven App Control and Raven System Control.",14,ui.foreground));ui.space(content,8);
+        content.addView(text("Virtual DualShock 4 controls for your handheld, with app selection and button mapping.",14,ui.foreground));ui.space(content,8);
         content.addView(text("Build date: "+BuildInfo.BUILD_DATE+"\nCreator: Rsotbiemrptson",13,ui.secondary));ui.space(content,8);
         content.addView(text("Open source · GNU GPL v3 only",13,ui.secondary));
         TextView license=text("License",14,ui.accentText);license.setPaintFlags(license.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG);license.setGravity(Gravity.CENTER_VERTICAL|Gravity.START);license.setMinHeight(ui.dp(44));license.setFocusable(true);license.setOnClickListener(v->showLicense());content.addView(license,new LinearLayout.LayoutParams(-2,-2));

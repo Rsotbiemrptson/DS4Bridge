@@ -90,7 +90,7 @@ public class PickerActivity extends ActivityGroup {
         if(!wide)header.addView(ui.logo(),new LinearLayout.LayoutParams(dp(42),dp(42)));
         LinearLayout names=ui.column();names.setPadding(wide?0:dp(10),0,0,0);if(!wide){TextView brand=ui.note("Raven Gamepad");brand.setPadding(0,0,0,0);names.addView(brand);}
         TextView title=ui.heading("Apps");paneTitle=title;title.setPadding(0,0,0,0);names.addView(title);header.addView(names,new LinearLayout.LayoutParams(0,-2,1));
-        Button more=ui.button("\u22ee",false);more.setTextSize(26);more.setPadding(0,0,0,0);more.setContentDescription("More options");more.setOnClickListener(v->showOptions(more));header.addView(more,new LinearLayout.LayoutParams(dp(48),dp(44)));
+        Button more=ui.overflow();more.setOnClickListener(v->showOptions(more));header.addView(more,new LinearLayout.LayoutParams(dp(48),dp(44)));
         LinearLayout content=ui.column();content.setPadding(dp(22),dp(4),dp(22),dp(12));page.addView(content,new LinearLayout.LayoutParams(-1,0,1));
         content.addView(ui.note("Choose which apps receive your virtual controller input."));
 
@@ -239,13 +239,18 @@ public class PickerActivity extends ActivityGroup {
     private static boolean validPackage(String pkg) {
         return pkg.matches("[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+");
     }
+    static boolean isSystemApp(ApplicationInfo app){
+        return (app.flags & (ApplicationInfo.FLAG_SYSTEM|ApplicationInfo.FLAG_UPDATED_SYSTEM_APP))!=0
+            || app.packageName.equals("com.google.android.verifier")
+            || app.packageName.equals("com.google.android.safetycore")
+            || app.packageName.equals("com.google.android.contactkeys");
+    }
     private void loadChoices() {
         Set<String> included = new HashSet<>();
         for (ApplicationInfo app : pm.getInstalledApplications(0)) {
             String pkg = app.packageName;
             if (!included.add(pkg) || pkg.equals(getPackageName())) continue;
-            boolean system = (app.flags & (ApplicationInfo.FLAG_SYSTEM
-                    | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0;
+            boolean system = isSystemApp(app);
             choices.add(new Choice(pkg, String.valueOf(app.loadLabel(pm)), system, app));
         }
         selected.retainAll(included);

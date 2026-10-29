@@ -33,7 +33,7 @@ public class BridgeScreen extends Activity {
         boolean wide=getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE;
         if(!wide)header.addView(ui.logo(),new LinearLayout.LayoutParams(ui.dp(36),ui.dp(36)));
         TextView brand=ui.text(wide?"Settings":"Raven Gamepad",25);brand.setTypeface(null,android.graphics.Typeface.BOLD);brand.setPadding(ui.dp(10),0,0,0);header.addView(brand,new LinearLayout.LayoutParams(0,-2,1));
-        Button menu=ui.button("\u22ee",false);menu.setTextSize(26);menu.setPadding(0,0,0,0);menu.setContentDescription("More options");menu.setOnClickListener(v->showOptions(menu));header.addView(menu,new LinearLayout.LayoutParams(ui.dp(48),ui.dp(44)));
+        Button menu=ui.overflow();menu.setOnClickListener(v->showOptions(menu));header.addView(menu,new LinearLayout.LayoutParams(ui.dp(48),ui.dp(44)));
         shell.addView(header,new LinearLayout.LayoutParams(-1,ui.dp(52)));shell.addView(content,new LinearLayout.LayoutParams(-1,0,1));
         super.setContentView(RavenShell.wrap(this,ui,shell,this instanceof BridgeActivity?0:this instanceof MappingActivity?1:this instanceof DiagnosticsActivity?2:3,target->navigateAway(()->{
             startActivity(new Intent(this,target).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP));finish();

@@ -69,7 +69,7 @@ public final class DiagnosticsActivity extends BridgeScreen implements InputMana
         dpadLabel=text(dpadBox,"D-pad: centered",16);
         lastInput=text(page,landscape?"Physical inputs before DS4 mapping - press buttons or move sticks":"Waiting for controller input",landscape?13:16);
         LinearLayout actions=new LinearLayout(this);actions.setOrientation(0);page.addView(actions);
-        button(actions,"Refresh controllers",v->refresh(),true);
+        button(actions,"Refresh controllers",v->{refresh();Toast.makeText(this,"Controllers refreshed: "+controllers.size()+" physical controller"+(controllers.size()==1?"":"s")+" found",Toast.LENGTH_SHORT).show();},true);
         button(actions,"Clear readings",v->{events.setLength(0);resetReadings();updateReport();},true);
         checkButton=button(landscape?actions:page,landscape?"Run bridge checks":"Check root and gamepad interfaces",v->rootCheck(),landscape);
         if(landscape)detailsButton=button(actions,"Technical details",v->showDetails(!detailsVisible),true);

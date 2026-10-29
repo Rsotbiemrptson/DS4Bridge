@@ -16,7 +16,8 @@ public final class MappingActivity extends BridgeScreen implements InputManager.
     private final Map<Integer,Integer> keys = new LinkedHashMap<>(), axes = new LinkedHashMap<>();
     private final Set<Integer> inverted = new HashSet<>();
     private InputDevice selected;
-    private LinearLayout rows;
+    private LinearLayout rows,sectionRows;
+    private final Set<String> collapsedSections=new HashSet<>();
     private TextView status;
     private int waiting = -1;
     private boolean busy;
@@ -38,7 +39,7 @@ public final class MappingActivity extends BridgeScreen implements InputManager.
     @Override public void onCreate(Bundle saved){
         saved=restorePaneState(saved);
         super.onCreate(saved);
-        pendingState=saved;
+        pendingState=saved;if(saved!=null&&saved.containsKey("collapsed_sections"))collapsedSections.addAll(saved.getStringArrayList("collapsed_sections"));
         boolean wide=getResources().getConfiguration().orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE;
         LinearLayout page=ui.column();page.setPadding(ui.dp(16),ui.dp(6),ui.dp(16),ui.dp(6));
         TextView title=ui.heading("Controller mapping");controllerHeading=ui.note("No Controller Selected");
@@ -73,7 +74,7 @@ public final class MappingActivity extends BridgeScreen implements InputManager.
     @Override protected void onResume(){super.onResume();inputManager.registerInputDeviceListener(this,null);refreshControllers();}
     @Override protected void onPause(){inputManager.unregisterInputDeviceListener(this);cancelLearning();super.onPause();}
     @Override protected void onSaveInstanceState(Bundle out){
-        super.onSaveInstanceState(out);if(selected==null)return;
+        super.onSaveInstanceState(out);out.putStringArrayList("collapsed_sections",new ArrayList<>(collapsedSections));if(selected==null)return;
         out.putInt("mapping_vendor",selected.getVendorId());out.putInt("mapping_product",selected.getProductId());out.putSerializable("mapping_keys",new LinkedHashMap<>(keys));out.putSerializable("mapping_axes",new LinkedHashMap<>(axes));out.putSerializable("mapping_inverted",new HashSet<>(inverted));out.putBoolean("mapping_dirty",dirty);
     }
     @SuppressWarnings("unchecked") private void restoreDraft(){
@@ -135,24 +136,30 @@ public final class MappingActivity extends BridgeScreen implements InputManager.
     private void render(){
         rows.removeAllViews();
         LinearLayout titles=new LinearLayout(this);TextView output=ui.note("DS4 output"),input=ui.note("Controller input");output.setPadding(ui.dp(8),ui.dp(2),0,ui.dp(2));input.setPadding(ui.dp(8),ui.dp(2),0,ui.dp(2));ui.equal(titles,output);ui.equal(titles,input);rows.addView(titles);
-        for(int i=0;i<KEY_TARGETS.length;i++){
-            if(i==0||i==4||i==8||i==13)group(i==0?"Face buttons":i==4?"Shoulders":i==8?"Other buttons":"D-pad buttons");
-            final int target=KEY_TARGETS[i];View row=assignmentRow("key:"+target,KEY_NAMES[i],keys.containsKey(target)?inputName(keys.get(target)):"Unassigned");
-            row.setOnClickListener(v->learn(target));row.setOnLongClickListener(v->{learn(target);return true;});
-        }
-        for(int i=0;i<AXIS_TARGETS.length;i++){
-            if(i==0||i==4||i==6)group(i==0?"Stick axes":i==4?"Analog triggers":"D-pad axes");
-            final int target=AXIS_TARGETS[i];final String name=AXIS_NAMES[i];View row=assignmentRow("axis:"+target,name,(axes.containsKey(target)?axisInputName(axes.get(target)):"Unassigned")+(inverted.contains(target)?" (inverted)":""));
-            row.setOnClickListener(v->captureAxis(target,name));row.setOnLongClickListener(v->{axisOptions(target);return true;});
-        }
+        group("Face buttons");for(int i=0;i<4;i++)keyRow(i);keyRow(8);keyRow(9);keyRow(12);
+        group("Shoulders");for(int i=4;i<8;i++)keyRow(i);axisRow(4);axisRow(5);
+        group("D-pad buttons");for(int i=13;i<KEY_TARGETS.length;i++)keyRow(i);
+        group("Analog Sticks");keyRow(10);keyRow(11);for(int i=0;i<4;i++)axisRow(i);
         renderSelection();
     }
-    private void group(String label){TextView title=ui.text(label,13);title.setPadding(ui.dp(8),ui.dp(3),ui.dp(8),ui.dp(3));title.setTypeface(null,android.graphics.Typeface.BOLD);title.setBackgroundColor(ui.panel);rows.addView(title);}
+    private void keyRow(int i){
+        final int target=KEY_TARGETS[i];View row=assignmentRow("key:"+target,KEY_NAMES[i],keys.containsKey(target)?inputName(keys.get(target)):"Unassigned");
+        row.setOnClickListener(v->learn(target));row.setOnLongClickListener(v->{learn(target);return true;});
+    }
+    private void axisRow(int i){
+        final int target=AXIS_TARGETS[i];final String name=AXIS_NAMES[i];View row=assignmentRow("axis:"+target,name,(axes.containsKey(target)?axisInputName(axes.get(target)):"Unassigned")+(inverted.contains(target)?" (inverted)":""));
+        row.setOnClickListener(v->captureAxis(target,name));row.setOnLongClickListener(v->{axisOptions(target);return true;});
+    }
+    private void group(String label){
+        LinearLayout card=ui.card();LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(-1,-2);params.topMargin=ui.dp(8);rows.addView(card,params);sectionRows=ui.column();final LinearLayout body=sectionRows;
+        card.addView(ui.sectionHeader(label,body,!collapsedSections.contains(label),()->{if(body.getVisibility()==View.VISIBLE)collapsedSections.remove(label);else collapsedSections.add(label);}),new LinearLayout.LayoutParams(-1,ui.dp(48)));card.addView(body);
+    }
     private View assignmentRow(String tag,String name,String input){
         LinearLayout row=new LinearLayout(this);row.setGravity(Gravity.CENTER_VERTICAL);row.setPadding(ui.dp(10),ui.dp(2),ui.dp(10),ui.dp(2));row.setMinimumHeight(ui.dp(40));row.setTag(tag);row.setContentDescription(name+" - "+input);row.setFocusable(true);row.setClickable(true);
-        TextView output=ui.text(name,14),value=ui.text(input,14);if(input.equals("Unassigned"))value.setTextColor(ui.secondary);ui.equal(row,output);ui.equal(row,value);rows.addView(row);rows.addView(ui.divider());return row;
+        TextView output=ui.text(name,14),value=ui.text(input,14);if(input.equals("Unassigned"))value.setTextColor(ui.secondary);ui.equal(row,output);ui.equal(row,value);sectionRows.addView(row);sectionRows.addView(ui.divider());return row;
     }
-    private void renderSelection(){if(rows==null)return;for(int i=0;i<rows.getChildCount();i++){View row=rows.getChildAt(i);if(row.getTag()!=null){boolean selected=row.getTag().equals("key:"+waiting);row.setActivated(selected);if(selected)row.setBackground(ui.background(true));else row.setBackgroundColor(ui.background);}}}
+    private void renderSelection(){if(rows!=null)renderSelection(rows);}
+    private void renderSelection(View view){if(view.getTag() instanceof String&&((String)view.getTag()).startsWith("key:")){boolean selected=view.getTag().equals("key:"+waiting);view.setActivated(selected);view.setBackground(ui.background(selected));}if(view instanceof ViewGroup){ViewGroup group=(ViewGroup)view;for(int i=0;i<group.getChildCount();i++)renderSelection(group.getChildAt(i));}}
     static int[] defaultButtonCodes(int product){
         boolean odin=product==0x111;
         return new int[]{odin?305:304,odin?304:305,odin?308:307,odin?307:308,
@@ -166,7 +173,7 @@ public final class MappingActivity extends BridgeScreen implements InputManager.
             boolean odin=product==0x111;
             int[] codes=defaultButtonCodes(product);
             String[] names={odin?"B":"A",odin?"A":"B",odin?"Y":"X",odin?"X":"Y","L1","R1",
-                "L2","R2","Back / Select","Start","Left stick click","Right stick click","Home",
+                "L2","R2","Select","Start","Left stick click","Right stick click","Home",
                 "D-pad up","D-pad down","D-pad left","D-pad right"};
             for(int i=0;i<codes.length;i++)if(codes[i]==code)return names[i];
         }

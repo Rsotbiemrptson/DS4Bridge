@@ -4,7 +4,8 @@
 
 Use your handheld's built-in controls as a virtual DualShock 4 in selected Android apps. One APK includes app selection, controller mapping, diagnostics and the bridge components.
 
-**Current final release: 0.16.1 (version code 33).** Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
+**Current final release: 0.16.2 (version code 36).** Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
+
 
 ## What it does
 
@@ -20,7 +21,7 @@ Use your handheld's built-in controls as a virtual DualShock 4 in selected Andro
 
 **Odin 2 is hardware-tested. Odin 3 and Retroid still require hardware testing.**
 
-The standalone bridge was tested on Odin 2 stock 1.0.0.318 / Android 13 and a stock-318-based custom build. For this milestone, Remote Play buttons, D-pad, both sticks and triggers worked in-game before and after reboot; automatic bridge startup after first unlock was observed without opening Raven Gamepad.
+The standalone bridge was tested on Odin 2 stock 1.0.0.318 / Android 13 and a stock-318-based custom build. Earlier runtime acceptance confirmed Remote Play buttons, D-pad, both sticks and triggers worked in-game before and after reboot; automatic bridge startup after first unlock was observed without opening Raven Gamepad.
 
 Known Odin 2 and inspected Odin 3 Touch Mapping interfaces are detected automatically. The Odin 3 adapter is not hardware-validated. The inspected Retroid Pocket 6 integration has read-only diagnostics only: component setup, bridge startup and exclusion changes remain disabled. Unknown mapping versions are reported rather than sent guessed commands. See [Compatibility](docs/USAGE.md#compatibility).
 
@@ -46,10 +47,10 @@ The app uses Java and Android framework APIs plus a small native C bridge, witho
 - `runtime/`: privileged launcher, supervisor and stop scripts.
 - `build.ps1`: portable signed-APK build; `scripts/`: final-APK publishing helper.
 - `tests/`: host checks, native tests and Android instrumentation source.
-- `releases/v0.16.1/`: current signed APK and SHA-256 checksum.
+- `releases/v0.16.2/`: current signed APK and SHA-256 checksum.
 - `docs/`: install, removal, usage, build, architecture and validation notes.
 
-See [Architecture](docs/ARCHITECTURE.md) and [Release status](RELEASE-STATUS.md). Source corresponding to the official APK is available at the `v0.16.1` tag.
+See [Architecture](docs/ARCHITECTURE.md) and [Release status](RELEASE-STATUS.md). Source corresponding to the official APK is available at the `v0.16.2` tag.
 
 ## License and contributions
 
