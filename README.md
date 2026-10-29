@@ -1,13 +1,16 @@
 # Raven Gamepad
 
-<img src="docs/images/icon.png" alt="Raven Gamepad icon" width="96" />
+<img src="docs/images/icon.png" alt="Raven Gamepad" width="112">
 
-Use your handheld's built-in controls as a virtual DualShock 4 in selected Android apps. One APK includes app selection, controller mapping, diagnostics and the bridge components.
+**Your controller. Your games.**
 
-**Current final release: 0.16.2 (version code 36).** Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
+Virtual DualShock 4 controls for your handheld, with app selection, controller mapping and diagnostics in one APK.
 
+**Current release: 0.16.2** · Package: `com.odin2.ds4bridgehelper` · Version code: `36` · License: **GPL-3.0-only**
 
-## What it does
+Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
+
+## Features
 
 - Forward the built-in controller to selected installed apps; search by app name or package ID and optionally show system apps.
 - Handle Odin and Xbox controller modes with the correct physical face-button positions.
@@ -17,7 +20,7 @@ Use your handheld's built-in controls as a virtual DualShock 4 in selected Andro
 - Use a persistent Raven sidebar, light/dark/system themes, a color wheel, RGB sliders, hex input and Raven-family color presets.
 - Open Settings and About from the three-dot menu. Settings reveals Appearance, Bridge controls, Controller mapping and Diagnostics beneath Apps; selecting Apps hides those extra tabs. Advanced component actions are collapsed by default.
 
-## Supported scope
+## Device support
 
 **Odin 2 is hardware-tested. Odin 3 and Retroid still require hardware testing.**
 
@@ -29,16 +32,16 @@ This is **not an ordinary unprivileged APK**. On the tested Odin 2, AYN's `PServ
 
 The bridge does not change firmware, device fingerprints or Play Integrity, and it cannot guarantee that another app accepts a virtual controller. It is not affiliated with AYN, Sony or PlayStation.
 
-## Install, use and remove
+## Getting started
 
 - [Install and update](docs/INSTALL.md)
 - [Usage, mapping, appearance and troubleshooting](docs/USAGE.md)
-- [Complete removal](docs/UNINSTALL.md) — remove bridge components **before** uninstalling the APK.
+- [Complete removal](docs/UNINSTALL.md) â€” remove bridge components **before** uninstalling the APK.
 - [Testing and hardware limits](docs/TESTING.md)
 
 Automatic startup waits for the first unlock after reboot. App selection gates input forwarding; the virtual controller stays registered while the bridge is running. Battery impact has not been quantified.
 
-## Source and building
+## Build and verification
 
 The app uses Java and Android framework APIs plus a small native C bridge, without Gradle dependencies. [Build instructions](docs/BUILD.md) cover Windows PowerShell, JDK, Android SDK/NDK and signing. SDK tools and private signing keys are not included.
 
