@@ -26,12 +26,19 @@ kill -0 "$BRIDGE_PID" 2>/dev/null || exit 1
 dumpsys input 2>/dev/null | grep -q 'vendor=0x054c, product=0x09cc' || exit 1
 while kill -0 "$BRIDGE_PID" 2>/dev/null; do
     pm path "$HELPER" >/dev/null 2>&1 || exit 0
-    top_package="$(dumpsys activity activities 2>/dev/null | grep -m 1 'topResumedActivity=' | sed -n 's/.* u[0-9][0-9]* \([^ /]*\)\/.*/\1/p')"
-    targets="$(content read --uri "content://$HELPER.targets/targets" 2>/dev/null)"
-    if [ -n "$top_package" ] && printf '%s\n' "$targets" | grep -Fqx "$top_package"; then
+    forwarding="$(content read --uri "content://$HELPER.targets/forwarding" 2>/dev/null)"
+    if [ "$forwarding" = off ]; then
+        kill -USR2 "$BRIDGE_PID" 2>/dev/null
+    elif [ "$forwarding" = all ]; then
         kill -USR1 "$BRIDGE_PID" 2>/dev/null
     else
-        kill -USR2 "$BRIDGE_PID" 2>/dev/null
+        top_package="$(dumpsys activity activities 2>/dev/null | grep -m 1 'topResumedActivity=' | sed -n 's/.* u[0-9][0-9]* \([^ /]*\)\/.*/\1/p')"
+        targets="$(content read --uri "content://$HELPER.targets/targets" 2>/dev/null)"
+        if [ -n "$top_package" ] && printf '%s\n' "$targets" | grep -Fqx "$top_package"; then
+            kill -USR1 "$BRIDGE_PID" 2>/dev/null
+        else
+            kill -USR2 "$BRIDGE_PID" 2>/dev/null
+        fi
     fi
     sleep 1
 done

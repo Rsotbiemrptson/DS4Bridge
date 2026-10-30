@@ -14,4 +14,9 @@
         android:targetPackage="com.odin2.ds4bridgehelper" />
     <instrumentation android:name="com.odin2.ds4bridgehelper.IntegrationSmoke"
         android:targetPackage="com.odin2.ds4bridgehelper" />
+    <instrumentation android:name="com.odin2.ds4bridgehelper.RavenUiSmoke"
+        android:targetPackage="com.odin2.ds4bridgehelper" />
+    <instrumentation android:name="com.odin2.ds4bridgehelper.RenameSmoke"
+        android:targetPackage="com.odin2.ds4bridgehelper" />
+    <instrumentation android:name="com.odin2.ds4bridgehelper.ControllerModeSmoke" android:targetPackage="com.odin2.ds4bridgehelper" />
 </manifest>

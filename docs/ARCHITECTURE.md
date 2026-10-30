@@ -2,7 +2,7 @@
 
 Raven Gamepad (formerly DS4 Bridge) is not a Bluetooth pairing utility. A native process reads physical
 Linux input events and creates an Android-visible virtual Sony pad through
-uinput (VID 054c, PID 09cc). Current known physical modes are vendor 2020,
+uinput (VID 054c, PID 09cc), named Raven Gamepad. Current known physical modes are vendor 2020,
 product 0111 (Odin) and 0112 (Xbox). Face buttons use physical positions, not
 identical A/B/X/Y names across the two layouts.
 
@@ -28,12 +28,7 @@ starts the same runtime only when the user enables automatic startup. No
 firmware partition patch, boot image patch or Magisk module is installed.
 
 The supervisor asks AYN Touch Mapping to exclude the virtual pad, then starts
-the native bridge. It queries the foreground app and selected-package provider
-approximately once per second and signals forwarding on/off. The virtual pad
-remains registered while the bridge runs, including outside selected apps;
-app selection gates input forwarding, not virtual-device enumeration. This
-release is not an event-driven foreground watcher, and battery impact has not
-been quantified. Normal shutdown requests removal of the Touch Mapping
+the native bridge. Revision 17 reads a read-only selected/all/off mode endpoint once per second. Selected mode queries the foreground app and saved-package provider; all/off modes signal directly without those queries. The virtual pad remains registered while the bridge runs, including outside selected apps and while paused. Global mode does not overwrite the saved selected-app list. The Odin 2 tile writes only the verified stock style settings and keeps the same bridge process running through source disconnect/reconnect. A temporary transition pause prevents forwarding during changes; failed mode changes attempt to restore prior settings. Model/API/interface guards reject unknown devices. Battery impact remains unmeasured. Normal shutdown requests removal of the Touch Mapping
 exclusion; abnormal termination may skip that cleanup.
 
 Mappings and selected packages are app-private, device-protected settings;
@@ -52,3 +47,7 @@ not treat this design as a general-purpose safe command-execution API.
 ## UI shell
 
 A single top-level activity retains the app list, header and sidebar. Settings tool activities are embedded in the right pane with lifecycle and controller event forwarding. The host asks the mapping pane about unsaved edits before navigation and explicitly stores/restores pane draft state on recreation. This UI redesign does not change the native controller identity, package/provider IDs or runtime protocol.
+
+## Controller name migration
+
+Exclusion creation uses Raven Gamepad. Removal verifies cleanup of both that name and legacy Odin DS4 Bridge Test entries, including duplicates; other names are left intact. Component setup waits for shutdown and owned exclusion cleanup before replacing the root-owned payload. Application package/provider names, runtime paths, executable name and Sony VID/PID remain stable.

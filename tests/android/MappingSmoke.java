@@ -102,7 +102,7 @@ public final class MappingSmoke extends Instrumentation {
             if(failure!=null)throw new Exception("Draft state regression",failure);
             if(update){
                 AppRuntime.setup(getTargetContext());
-                check("15".equals(RootHooks.execute("cat "+AppRuntime.STATE+"/ready")),"Components not updated");
+                check("17".equals(RootHooks.execute("cat "+AppRuntime.STATE+"/ready")),"Components not updated");
                 String started=AppRuntime.start();
                 check(started.contains("START_REQUESTED"),"Updated bridge did not start: "+started);
                 results.putString("runtime",started);

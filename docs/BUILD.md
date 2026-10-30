@@ -13,7 +13,7 @@ SDK/NDK/JDK downloads and the publisher's signing key are not included. Supply a
   -SigningCertificate 'D:/PrivateKeys/gamepad-cert.pem'
 ```
 
-Use the actual tool directories. Pass `-BuildToolsDir` if Build Tools are installed separately, and optionally `-OutputDirectory`. By default, the signed APK goes to `dist/Raven-Gamepad-0.16.2.apk`. Each build uses a fresh ignored `.build/` directory and does not replace the curated release APK.
+Use the actual tool directories. Pass `-BuildToolsDir` if Build Tools are installed separately, and optionally `-OutputDirectory`. By default, the signed APK goes to `dist/Raven-Gamepad-0.16.3.apk`. Each build uses a fresh ignored `.build/` directory and does not replace the curated release APK.
 
 The script compiles native C, stages the runtime scripts and GPL text in temporary assets, generates the build date in Eastern time, compiles Java, packages, aligns, signs and verifies the APK. It neither installs on a device nor uploads anything.
 

@@ -16,7 +16,22 @@ The main card shows the actual state as **Status: ...**, Start/Stop/Restart and 
 
 Advanced starts collapsed. Expand it for Install/Update Components, Refresh bridge status, View technical status, Test virtual gamepad and Uninstall Bridge Components. Each action has an explanation. Scroll for lower rows when needed. Testing the virtual gamepad sends a short input; avoid doing that during an important game action.
 
-App selection controls forwarding. The virtual Sony controller remains registered while the bridge runs, even outside selected apps. The supervisor still queries foreground/selection state approximately once per second; this release does not replace it with accessibility monitoring. Battery impact has not been measured.
+By default, app selection controls forwarding. The virtual Sony controller remains registered while the bridge runs, even outside selected apps. The supervisor still checks mode approximately once per second. In selected-app mode it also queries foreground/selection state; all-app and paused modes skip those queries. This is not an accessibility watcher, and battery impact has not been measured.
+
+## Quick Settings controller style
+
+On the verified Odin 2 / Android 13, add the Raven controller style tile through Quick Settings edit. Its displayed title is Raven Gamepad. Each tap advances:
+
+| Mode | Behavior |
+| --- | --- |
+| Odin | Stock Odin layout, bridge forwarding only to saved selected apps. |
+| Xbox | Stock Xbox layout, bridge forwarding only to saved selected apps. |
+| Raven Gamepad | Virtual DS4 forwarding to all apps; saved app list remains intact. |
+| Disconnected | Stock controller buttons disabled and forwarding paused. Touchscreen remains usable; native bridge and supervisor stay running. |
+
+The cycle returns to Odin after Disconnected, reconnecting the source automatically; no manual bridge Start is required. Enable Start bridge after reboot if automatic runtime startup is wanted. The current global/per-app preference and stock settings persist. After unlock the existing boot launcher starts the runtime; a disconnected controller stays paused.
+
+Mode changes require revision-17 components. If the tile asks for an update, use Install/Update Components in Bridge controls. Style switching is intentionally unavailable on unverified models. A virtual gamepad is still enumerated during Disconnected; this mode suppresses controller input while keeping the bridge ready.
 
 ## Controller mapping and diagnostics
 

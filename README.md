@@ -6,12 +6,14 @@
 
 Virtual DualShock 4 controls for your handheld, with app selection, controller mapping and diagnostics in one APK.
 
-**Current release: 0.16.2** · Package: `com.odin2.ds4bridgehelper` · Version code: `36` · License: **GPL-3.0-only**
+**Current release: 0.16.3** · Package: `com.odin2.ds4bridgehelper` · Version code: `39` · License: **GPL-3.0-only**
 
 Previously named DS4 Bridge; the package and signing identity remain unchanged, so the official APK can update an existing installation.
 
 ## Features
 
+- Name the virtual Sony controller Raven Gamepad and retain correct Odin/Xbox face-button positions.
+- Use the Raven Gamepad Quick Settings tile: Odin/Xbox for selected apps, Raven for all apps, Disconnected to pause controller input while keeping the bridge running. Tile mode switching is currently verified only on Odin 2 / Android 13.
 - Forward the built-in controller to selected installed apps; search by app name or package ID and optionally show system apps.
 - Handle Odin and Xbox controller modes with the correct physical face-button positions.
 - Learn button mappings, record/invert axes, and apply saved mappings with a bridge restart.
@@ -24,7 +26,7 @@ Previously named DS4 Bridge; the package and signing identity remain unchanged, 
 
 **Odin 2 is hardware-tested. Odin 3 and Retroid still require hardware testing.**
 
-The standalone bridge was tested on Odin 2 stock 1.0.0.318 / Android 13 and a stock-318-based custom build. Earlier runtime acceptance confirmed Remote Play buttons, D-pad, both sticks and triggers worked in-game before and after reboot; automatic bridge startup after first unlock was observed without opening Raven Gamepad.
+The standalone bridge was tested on Odin 2 stock 1.0.0.318 / Android 13 and a stock-318-based custom build. Odin 2 tests confirmed Remote Play buttons, D-pad, both sticks and triggers worked in-game before and after reboot; automatic bridge startup after first unlock was observed without opening Raven Gamepad.
 
 Known Odin 2 and inspected Odin 3 Touch Mapping interfaces are detected automatically. The Odin 3 adapter is not hardware-validated. The inspected Retroid Pocket 6 integration has read-only diagnostics only: component setup, bridge startup and exclusion changes remain disabled. Unknown mapping versions are reported rather than sent guessed commands. See [Compatibility](docs/USAGE.md#compatibility).
 
@@ -50,10 +52,10 @@ The app uses Java and Android framework APIs plus a small native C bridge, witho
 - `runtime/`: privileged launcher, supervisor and stop scripts.
 - `build.ps1`: portable signed-APK build; `scripts/`: final-APK publishing helper.
 - `tests/`: host checks, native tests and Android instrumentation source.
-- `releases/v0.16.2/`: current signed APK and SHA-256 checksum.
+- `releases/v0.16.3/`: current signed APK and SHA-256 checksum.
 - `docs/`: install, removal, usage, build, architecture and validation notes.
 
-See [Architecture](docs/ARCHITECTURE.md) and [Release status](RELEASE-STATUS.md). Source corresponding to the official APK is available at the `v0.16.2` tag.
+See [Architecture](docs/ARCHITECTURE.md) and [Release status](RELEASE-STATUS.md). Source corresponding to the official APK is available at the `v0.16.3` tag.
 
 ## License and contributions
 

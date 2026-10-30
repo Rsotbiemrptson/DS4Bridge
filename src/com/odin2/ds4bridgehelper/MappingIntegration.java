@@ -9,7 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 /** Known-component detection, descriptor verification and exclusion ownership. */
 final class MappingIntegration {
-    static final String PAD="Odin DS4 Bridge Test";
+    static final String PAD="Raven Gamepad",LEGACY_PAD="Odin DS4 Bridge Test";
+    static boolean isVirtualPad(android.view.InputDevice device){return device!=null&&((device.getVendorId()==0x054c&&device.getProductId()==0x09cc)||PAD.equals(device.getName())||device.getName().contains("DS4 Bridge"));}
     // Accessed only on the main looper: never overlap exclusion actions/probes.
     private static boolean sessionBusy;
     interface Callback { void complete(boolean ok,String message); }
@@ -81,13 +82,16 @@ final class MappingIntegration {
                     if(operation==1){
                         // Persist before sending a write, so a lost reply cannot lose cleanup ownership.
                         if(!prefs(c).edit().putString("owner",profile.id).commit())throw new IllegalStateException("Cannot save exclusion owner");
-                        if(!names.contains(PAD)&&!finished)change(binder,profile,1);
+                        if(!names.contains(PAD)&&!finished)change(binder,profile,1,PAD);
                         if(!list(binder,profile).contains(PAD))throw new IllegalStateException("Exclusion add was not confirmed");
                     }else if(operation==0){
-                        int count=Collections.frequency(names,PAD);if(count>64)throw new IllegalStateException("Unexpected duplicate exclusion count");
-                        for(int i=0;i<count&&!finished;i++)change(binder,profile,0);
+                        for(String pad:new String[]{PAD,LEGACY_PAD}){
+                            int count=Collections.frequency(names,pad);if(count>64)throw new IllegalStateException("Unexpected duplicate exclusion count");
+                            for(int i=0;i<count&&!finished;i++)change(binder,profile,0,pad);
+                        }
                         if(finished)return;
-                        if(list(binder,profile).contains(PAD))throw new IllegalStateException("Exclusion removal was not confirmed");
+                        ArrayList<String> remaining=list(binder,profile);
+                        if(remaining.contains(PAD)||remaining.contains(LEGACY_PAD))throw new IllegalStateException("Exclusion removal was not confirmed");
                         if(!prefs(c).edit().remove("owner").commit())throw new IllegalStateException("Cannot clear exclusion owner");
                     }
                     String message=profile.label+" verified ("+profile.descriptor+"): "+(operation==1?"exclusion added":operation==0?"exclusion removed":"read-only connection/list check passed");
@@ -104,8 +108,8 @@ final class MappingIntegration {
         Parcel data=Parcel.obtain(),reply=Parcel.obtain();
         try{data.writeInterfaceToken(p.descriptor);if(!binder.transact(p.listCode,data,reply,0))throw new RemoteException("Unsupported list operation");reply.readException();ArrayList<String> names=reply.createStringArrayList();if(names==null)throw new RemoteException("Invalid exclusion list");return names;}finally{data.recycle();reply.recycle();}
     }
-    private static void change(IBinder binder,MappingProfiles.Profile p,int operation)throws RemoteException{
+    private static void change(IBinder binder,MappingProfiles.Profile p,int operation,String pad)throws RemoteException{
         Parcel data=Parcel.obtain(),reply=Parcel.obtain();
-        try{data.writeInterfaceToken(p.descriptor);data.writeInt(operation);data.writeString(PAD);if(!binder.transact(p.changeCode,data,reply,0))throw new RemoteException("Unsupported exclusion operation");reply.readException();}finally{data.recycle();reply.recycle();}
+        try{data.writeInterfaceToken(p.descriptor);data.writeInt(operation);data.writeString(pad);if(!binder.transact(p.changeCode,data,reply,0))throw new RemoteException("Unsupported exclusion operation");reply.readException();}finally{data.recycle();reply.recycle();}
     }
 }

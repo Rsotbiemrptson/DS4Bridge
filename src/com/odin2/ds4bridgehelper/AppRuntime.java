@@ -15,12 +15,13 @@ final class AppRuntime {
         MappingIntegration.requireSupported(context);
         RootHooks.requireRoot();
         Context storage = context.createDeviceProtectedStorageContext();
-        File payload = new File(storage.getFilesDir(), "payload-v15");
+        File payload = new File(storage.getFilesDir(), "payload-v17");
         if (!payload.isDirectory() && !payload.mkdirs()) throw new IOException("Cannot stage app files");
         checked("[ ! -L " + STATE + " ] && [ ! -L " + STATE + "/incoming ]");
         checked("[ ! -d " + STATE + " ] || [ \"$(stat -c %u " + STATE + ")\" = 0 ]");
         if ("YES".equals(RootHooks.execute("[ -x " + STATE + "/stop.sh ] && echo YES"))) {
-            stop(); Thread.sleep(2500);
+            stopAndWait();
+            MappingIntegration.remove(context);
         }
         checked("umask 077; mkdir -p " + STATE + "/incoming");
         checked("chown 0:0 " + STATE + " " + STATE + "/incoming");
@@ -44,7 +45,7 @@ final class AppRuntime {
             checked("[ \"$(sha256sum " + staged + " | cut -d ' ' -f 1)\" = " + hex + " ]");
         }
         for (String name : FILES) checked("mv " + STATE + "/incoming/" + name + " " + STATE + "/" + name);
-        checked("echo 15 > " + STATE + "/ready");
+        checked("echo 17 > " + STATE + "/ready");
         Log.i("DS4AppRuntime", "SETUP_OK");
         return "App components installed. Start the bridge when ready.";
     }

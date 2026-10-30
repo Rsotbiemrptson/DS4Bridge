@@ -2,7 +2,7 @@
 STATE=/data/local/ds4-bridge-app
 exec >>"$STATE/start.log" 2>&1
 [ "$(id -u)" = 0 ] || exit 1
-[ "$(cat "$STATE/ready" 2>/dev/null)" = 15 ] || { echo 'STOP: complete app setup required'; exit 1; }
+[ "$(cat "$STATE/ready" 2>/dev/null)" = 17 ] || { echo 'STOP: complete app setup required'; exit 1; }
 model="$(getprop ro.product.vendor.model)"
 case "$model" in Odin2|"Odin 2") ;; *) echo 'STOP: diagnostics only for this model'; exit 1 ;; esac
 [ "$(getprop ro.build.version.sdk)" = 33 ] || { echo 'STOP: Odin 2 Android 13 required'; exit 1; }

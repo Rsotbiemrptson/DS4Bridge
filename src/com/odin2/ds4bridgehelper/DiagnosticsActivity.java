@@ -104,7 +104,7 @@ public final class DiagnosticsActivity extends BridgeScreen implements InputMana
     public void onInputDeviceRemoved(int id){refresh();}
     public void onInputDeviceChanged(int id){refresh();}
     private boolean isGamepad(InputDevice device){return device!=null&&(device.supportsSource(InputDevice.SOURCE_GAMEPAD)||device.supportsSource(InputDevice.SOURCE_JOYSTICK));}
-    private boolean isVirtual(InputDevice device){return device.getVendorId()==0x054c&&device.getProductId()==0x09cc||device.getName().contains("DS4 Bridge");}
+    private boolean isVirtual(InputDevice device){return MappingIntegration.isVirtualPad(device);}
     private void refresh(){
         controllers.clear();List<String> names=new ArrayList<>();int position=0;boolean retained=false;
         for(int id:InputDevice.getDeviceIds()){

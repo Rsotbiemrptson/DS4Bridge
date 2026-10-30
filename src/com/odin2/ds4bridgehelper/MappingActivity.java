@@ -92,7 +92,7 @@ public final class MappingActivity extends BridgeScreen implements InputManager.
         for(int id:InputDevice.getDeviceIds()){
             InputDevice d=InputDevice.getDevice(id);
             if(d==null||(!d.supportsSource(InputDevice.SOURCE_GAMEPAD)&&!d.supportsSource(InputDevice.SOURCE_JOYSTICK))
-                ||(d.getVendorId()==0x054c&&d.getProductId()==0x09cc)||d.getName().contains("DS4 Bridge"))continue;
+                ||MappingIntegration.isVirtualPad(d))continue;
             if(selected!=null&&selected.getId()==id&&selected.getVendorId()==d.getVendorId()&&selected.getProductId()==d.getProductId()){
                 position=found.size();retained=true;
             }

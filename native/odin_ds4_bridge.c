@@ -274,7 +274,7 @@ static int create_ds4(void) {
     setup.id.vendor = SONY_VENDOR;
     setup.id.product = DS4_PRODUCT;
     setup.id.version = 0x0100;
-    snprintf(setup.name, sizeof(setup.name), "Odin DS4 Bridge Test");
+    snprintf(setup.name, sizeof(setup.name), "Raven Gamepad");
     if (ioctl(fd, UI_DEV_SETUP, &setup) < 0 ||
         set_abs(fd, ABS_X, -32767, 32767, 15) < 0 ||
         set_abs(fd, ABS_Y, -32767, 32767, 15) < 0 ||

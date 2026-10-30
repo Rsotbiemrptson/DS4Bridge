@@ -25,8 +25,16 @@ public final class TargetsProvider extends ContentProvider {
     public ParcelFileDescriptor openFile(Uri uri, String mode) throws java.io.FileNotFoundException {
         if (!"r".equals(mode)
                 || !(getContext().getPackageName() + ".targets").equals(uri.getAuthority())
-                || !("/targets".equals(uri.getPath()) || "/profile".equals(uri.getPath()) || "/report".equals(uri.getPath()))) {
+                || !("/targets".equals(uri.getPath()) || "/profile".equals(uri.getPath()) || "/report".equals(uri.getPath()) || "/forwarding".equals(uri.getPath()))) {
             throw new java.io.FileNotFoundException("Unknown or non-read-only bridge URI");
+        }
+        if("/forwarding".equals(uri.getPath())){
+            try{
+                ParcelFileDescriptor[] pipe=ParcelFileDescriptor.createPipe();
+                try(java.io.OutputStream output=new ParcelFileDescriptor.AutoCloseOutputStream(pipe[1])){output.write((ControllerMode.forwardingValue(getContext())+"\n").getBytes(java.nio.charset.StandardCharsets.UTF_8));}
+                catch(java.io.IOException error){pipe[0].close();throw error;}
+                return pipe[0];
+            }catch(java.io.IOException error){throw new java.io.FileNotFoundException("Could not read forwarding mode");}
         }
         File file = targetFile();
         if ("/profile".equals(uri.getPath())) file = new File(file.getParentFile(), "profile.conf");
